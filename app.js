@@ -150,10 +150,6 @@ app.get(dir + '/banner', function(request, response) {
 		"csrf_token": ""
 	}
 	createWebAPIRequest('/api/v2/banner/get', data, cookie, response, 'GET')
-	//createRequest('/api/v2/banner/get', 'GET', data, function(res) {
-	//	response.setHeader("Content-Type", "application/json");
-	//	response.send(res);
-	//});
 });
 
 //歌单类型列表
@@ -202,6 +198,12 @@ app.get(dir + '/personalized/djprogram', function(request, response) {
 	var cookie = request.get('Cookie') ? request.get('Cookie') : (request.query.cookie ? request.query.cookie : '');
 	var data = {};
 	createWebAPIRequest('/api/personalized/djprogram', data, cookie, response)
+})
+//推荐dj
+app.get(dir + '/personalized/topic', function(request, response) {
+	var cookie = request.get('Cookie') ? request.get('Cookie') : (request.query.cookie ? request.query.cookie : '');
+	var data = {};
+	createWebAPIRequest('/weapi/personalized/topic', data, cookie, response)
 })
 
 //每日推荐歌曲
@@ -282,13 +284,10 @@ app.get(dir + '/search/multimatch', function(request, response) {
 });
 //搜索 hot
 app.get(dir + '/search/hot', function(request, response) {
-	var keywords = request.query.keywords || '';
-	var type = request.query.type || 1;
-	var cookie = request.get('Cookie') ? request.get('Cookie') : (request.query.cookie ? request.query.cookie : '');
 	var data = {
-		type: 1
+		type:1111
 	};
-	createWebAPIRequest('/api/search/hot?type=1', data, cookie, response)
+	createWebAPIRequest('/weapi/search/hot', data, cookie, response)
 });
 //搜索 suggest
 app.get(dir + '/search/suggest', function(request, response) {
@@ -738,6 +737,15 @@ app.get(dir + '/likelist', function(request, response) {
 	}
 	createWebAPIRequest('/weapi/song/like/get', data, cookie, response)
 });
+//红心歌曲
+app.get(dir + '/like/album', function(request, response) {
+	var cookie = request.get('Cookie') ? request.get('Cookie') : (request.query.cookie ? request.query.cookie : '');
+	var data = {
+		uid: request.query.uid,
+		"csrf_token": ""
+	}
+	createWebAPIRequest('/weapi/album/like/get', data, cookie, response)
+});
 //program-like
 app.get(dir + '/program/like', function(request, response) {
 	var cookie = request.get('Cookie') ? request.get('Cookie') : (request.query.cookie ? request.query.cookie : '');
@@ -839,6 +847,18 @@ app.get(dir + '/event/get', function(request, response) {
 		"csrf_token": ""
 	}
 	createWebAPIRequest('/weapi/event/get/' + request.query.id, data, cookie, response)
+});
+//朋友
+app.get(dir + '/event/list', function(request, response) {
+	var cookie = request.get('Cookie') ? request.get('Cookie') : (request.query.cookie ? request.query.cookie : '');
+	var data = {
+		'time': -1,
+		'offset': request.query.offset || '0',
+		'pagesize': request.query.limit || 20,
+		'getcounts': true,
+		"csrf_token": ""
+	}
+	createWebAPIRequest('/weapi/v2/event/get/', data, cookie, response)
 });
 //dj 订阅
 app.get(dir + '/dj/sub', function(request, response) {
@@ -952,6 +972,78 @@ app.get(dir + '/toplist/artist', function(request, response) {
 		"csrf_token": "",
 	};
 	createWebAPIRequest('/weapi/toplist/artist', data, cookie, response)
+})
+
+//我的收藏-歌手
+app.get(dir + '/sublist/artist', function(request, response) {
+	var data={
+		offset:request.query.offset||0,
+		limit:request.query.limit||0
+	}
+	createWebAPIRequest('/weapi/artist/sublist',data, null, response)
+})
+//我的收藏-专辑
+app.get(dir + '/sublist/album', function(request, response) {
+	var data={
+		offset:request.query.offset||0,
+		limit:request.query.limit||0
+	}
+	createWebAPIRequest('/weapi/album/sublist',data, null, response)
+})
+//我的收藏-MV
+app.get(dir + '/sublist/mv', function(request, response) {
+	var data={
+		offset:request.query.offset||0,
+		limit:request.query.limit||0
+	}
+	createWebAPIRequest('/weapi/mv/sublist',data, null, response)
+})
+//我的收藏-歌手
+app.get(dir + '/sublist/radio', function(request, response) {
+	var data={
+		offset:request.query.offset||0,
+		limit:request.query.limit||0
+	}
+	createWebAPIRequest('/weapi/djradio/get/subed',data, null, response)
+})
+//我的收藏-专栏
+app.get(dir + '/sublist/topic', function(request, response) {
+	var data={
+		offset:request.query.offset||0,
+		limit:request.query.limit||0
+	}
+	createWebAPIRequest('/weapi/topic/sublist',data, null, response)
+})
+//短视频-播放地址
+app.get(dir + '/video/playurl', function(request, response) {
+	var data={
+		ids:JSON.stringify([request.query.id]),
+		resolution:request.query.br,
+		csrf_token:''
+	}
+	createWebAPIRequest('/weapi/cloudvideo/playurl',data, null, response)
+})
+//短视频-detail
+app.get(dir + '/video/detail', function(request, response) {
+	var data={
+		id:request.query.id
+	}
+	createWebAPIRequest('/weapi/cloudvideo/v1/video/detail',data, null, response)
+})
+//短视频-simi
+app.get(dir + '/video/rcmd', function(request, response) {
+	var data={
+		id:request.query.id,
+		type:1
+	}
+	createWebAPIRequest('/weapi/cloudvideo/v1/allvideo/rcmd',data, null, response)
+})
+//短视频-statistic
+app.get(dir + '/video/statistic', function(request, response) {
+	var data={
+		id:request.query.id,
+	}
+	createWebAPIRequest('/weapi/cloudvideo/v1/video/statistic',data, null, response)
 })
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
