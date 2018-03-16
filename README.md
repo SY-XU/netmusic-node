@@ -14,9 +14,10 @@ node app.js | pm2 app.js
 
 ```
 
-## 前端请求
+### 请求
 ```
-Axios("http://localhost:3000/v1/music/detail?id=276830");
+# 浏览器直接输入或用对应请求工具
+http://localhost:3000/v1/music/detail?id=276830;//单曲详情
 ```
 ### 响应
 ```
@@ -89,10 +90,11 @@ Axios("http://localhost:3000/v1/music/detail?id=276830");
 更多接口见app.js。其他接口可看web官网js源码。客户端可抓包分析
 
 
-## 注意
-接口调用是有频率限制的,搜索，歌单类请求太频繁会返回空数据，登录类直接封IP，部署在vps要小心开放访问
-
-## 应用实例
+## 完整应用实例
 [网易云音乐-微信小程序](https://github.com/sqaiyan/NeteaseMusicWxMiniApp)
 
 [网易云音乐-Vue高仿ios客户端](https://github.com/sqaiyan/neteasemusic)
+
+## 注意
+接口调用是有频率限制的,搜索，歌单类请求太频繁会返回空数据，登录类直接封IP，部署在vps要小心开放访问
+
